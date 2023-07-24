@@ -28,53 +28,40 @@ TcpServerWidget::TcpServerWidget(QWidget *parent)
   ui->m_clientsTableView->setMinimumWidth(500);
 
   ui->m_clientsTableView->setContextMenuPolicy(Qt::CustomContextMenu);
-  connect(ui->m_clientsTableView, &QTableView::customContextMenuRequested, this, &TcpServerWidget::onCustomMenuRequested);
+  connect(ui->m_clientsTableView, &QTableView::customContextMenuRequested, this,
+          &TcpServerWidget::onCustomMenuRequested);
 }
 
 TcpServerWidget::~TcpServerWidget() { delete ui; }
 
 void TcpServerWidget::onNewConnection() {
   QTcpSocket *clientSocket = m_server.nextPendingConnection();
-  int idUserSocs = clientSocket->socketDescriptor();
-  m_sockets[idUserSocs] = clientSocket;
-
   m_model.addClient(clientSocket);
-
-  //  connect(clientSocket, &QTcpSocket::readyRead, this,
-  //          &TcpServerWidget::onReadyRead);
 
   connect(clientSocket, &QTcpSocket::stateChanged, this,
           &TcpServerWidget::onSocketStateChanged);
 }
 
-// void TcpServerWidget::onReadyRead() {
-//  QTcpSocket *sender = static_cast<QTcpSocket *>(QObject::sender());
-//  QByteArray datas = sender->readAll();
-//  for (QTcpSocket *socket : m_sockets) {
-//    if (socket != sender) {
-//      socket->write(QByteArray::fromStdString(
-//          sender->peerAddress().toString().toStdString() + ": " +
-//          datas.toStdString()));
-//    }
-//  }
-//}
-
 void TcpServerWidget::onSocketStateChanged(
     QAbstractSocket::SocketState socketState) {
-  if (socketState == QAbstractSocket::UnconnectedState) {
+  if (socketState == QAbstractSocket::ClosingState ||
+      socketState == QAbstractSocket::UnconnectedState) {
     QTcpSocket *sender = static_cast<QTcpSocket *>(QObject::sender());
-    m_model.deleteClient(sender->socketDescriptor());
+    if (m_model.containsSocket(sender->socketDescriptor())) {
+      m_model.deleteClient(sender->socketDescriptor());
+    }
   }
 }
 
 void TcpServerWidget::onCustomMenuRequested(QPoint pos) {
-    QMenu *menu = new QMenu(this);
-    QAction *disconnectClient = new QAction("Отключить", this);
-    connect(disconnectClient, &QAction::triggered, [&] () {
-        int row = ui->m_clientsTableView->rowAt(pos.y());
-        int descriptor = m_model.getDescriptorByRow(row);
-        m_model.disconnectClient(descriptor);
-    });
-    menu->addAction(disconnectClient);
-    menu->popup(ui->m_clientsTableView->viewport()->mapToGlobal(pos));
+  int row = ui->m_clientsTableView->indexAt(pos).row();
+  QMenu *menu = new QMenu(this);
+
+  QAction *disconnectClient = new QAction("Отключить", this);
+  connect(disconnectClient, &QAction::triggered, [this, row]() {
+    int descriptor = m_model.getDescriptorByRow(row);
+    m_model.disconnectClient(descriptor);
+  });
+  menu->addAction(disconnectClient);
+  menu->popup(ui->m_clientsTableView->viewport()->mapToGlobal(pos));
 }

@@ -30,7 +30,8 @@ int ClientsTableModel::columnCount(const QModelIndex &parent) const {
 
 QVariant ClientsTableModel::data(const QModelIndex &index, int role) const {
   QVariant variant;
-  QPair<QTcpSocket *, QString> row = m_data.value(m_data.keys().at(index.row()));
+  QPair<QTcpSocket *, QString> row =
+      m_data.value(m_data.keys().at(index.row()));
   const int column = index.column();
   if (role == Qt::DisplayRole || role == Qt::EditRole) {
     switch (column) {
@@ -52,31 +53,35 @@ QVariant ClientsTableModel::data(const QModelIndex &index, int role) const {
 }
 
 void ClientsTableModel::addClient(QTcpSocket *socket) {
-    beginResetModel();
-    m_data.insert(socket->socketDescriptor(), QPair<QTcpSocket *, QString>(socket, QString()));
-    count++;
-    endResetModel();
+  beginResetModel();
+  m_data.insert(socket->socketDescriptor(),
+                QPair<QTcpSocket *, QString>(socket, QString()));
+  count++;
+  endResetModel();
 }
 
 void ClientsTableModel::deleteClient(int descriptor) {
-    beginResetModel();
-    m_data.remove(descriptor);
-    count--;
-    endResetModel();
+  beginResetModel();
+  m_data.remove(descriptor);
+  count--;
+  endResetModel();
 }
 
 void ClientsTableModel::disconnectClient(int descriptor) {
-    QTcpSocket *socket = m_data.value(descriptor).first;
-    socket->close();
-    deleteClient(descriptor);
+  QTcpSocket *socket = m_data.value(descriptor).first;
+  socket->close();
 }
 
 void ClientsTableModel::saveMessage(int descriptor, QString message) {
-    QPair<QTcpSocket *, QString> value = m_data.value(descriptor);
-    value.second = message;
-    m_data.insert(descriptor, value);
+  QPair<QTcpSocket *, QString> value = m_data.value(descriptor);
+  value.second = message;
+  m_data.insert(descriptor, value);
 }
 
 int ClientsTableModel::getDescriptorByRow(int row) {
-    return m_data.keys().at(row);
+  return m_data.keys().at(row);
+}
+
+bool ClientsTableModel::containsSocket(int descriptor) {
+  return m_data.contains(descriptor);
 }
