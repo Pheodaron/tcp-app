@@ -1,11 +1,7 @@
 #include "clientstablemodel.h"
 
 ClientsTableModel::ClientsTableModel(QTcpServer *server, QObject *parent)
-    : QAbstractTableModel(parent), m_server(server) {
-//    addClient(Client(new QTcpSocket(this)));
-//    addClient(Client(new QTcpSocket(this)));
-//    addClient(Client(new QTcpSocket(this)));
-}
+    : QAbstractTableModel(parent), m_server(server) {}
 
 QVariant ClientsTableModel::headerData(int section, Qt::Orientation orientation,
                                        int role) const {
