@@ -26,13 +26,10 @@ public:
   int getDescriptorByRow(int row);
   void saveMessage(int port, QString message);
   bool containsSocket(int descriptor);
-  //  QTcpSocket *getClient(int port);
 
 private:
   QMap<int, QPair<QTcpSocket *, QString>> m_data;
   int count = 0;
-
-  QTcpServer *m_server;
 };
 
 #endif // CLIENTSTABLEMODEL_H

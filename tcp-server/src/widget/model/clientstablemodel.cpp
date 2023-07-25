@@ -1,7 +1,7 @@
 #include "clientstablemodel.h"
 
 ClientsTableModel::ClientsTableModel(QTcpServer *server, QObject *parent)
-    : QAbstractTableModel(parent), m_server(server) {}
+    : QAbstractTableModel(parent) {}
 
 QVariant ClientsTableModel::headerData(int section, Qt::Orientation orientation,
                                        int role) const {
