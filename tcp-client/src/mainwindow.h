@@ -19,6 +19,9 @@ public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
+  void onConnected();
+  void onDisconnected();
+
 private slots:
   void on_m_connectPushButton_clicked();
 

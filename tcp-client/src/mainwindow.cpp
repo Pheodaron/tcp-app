@@ -27,6 +27,21 @@ void MainWindow::on_m_connectPushButton_clicked() {
   }
 }
 
+void MainWindow::onConnected() {
+  m_socket.abort();
+  ui->m_connectPushButton->setText("Подключиться");
+  ui->m_sendMessageButton->setEnabled(false);
+  ui->m_messageLineEdit->setEnabled(false);
+  isConnected = false;
+}
+
+void MainWindow::onDisconnected() {
+  isConnected = true;
+  ui->m_connectPushButton->setText("Отключиться");
+  ui->m_sendMessageButton->setEnabled(true);
+  ui->m_messageLineEdit->setEnabled(true);
+}
+
 void MainWindow::on_m_sendMessageButton_clicked() {
   if (m_socket) {
     if (m_socket->isOpen()) {
