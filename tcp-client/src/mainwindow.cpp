@@ -42,20 +42,18 @@ void MainWindow::onDisconnected() {
 }
 
 void MainWindow::on_m_sendMessageButton_clicked() {
-  if (m_socket) {
-    if (m_socket->isOpen()) {
-      QString str = ui->m_messageLineEdit->text();
+  if (m_socket.isOpen()) {
+    QString str = ui->m_messageLineEdit->text();
 
-      QDataStream socketStream(m_socket);
-      socketStream.setVersion(QDataStream::Qt_5_13);
+    QDataStream socketStream(&m_socket);
+    socketStream.setVersion(QDataStream::Qt_5_12);
 
-      QByteArray message = str.toUtf8();
+    QByteArray message = str.toUtf8();
 
-      socketStream << message;
+    socketStream << message;
 
-      ui->m_messageLineEdit->clear();
-    } else
-      QMessageBox::critical(this, "tcp-client", "Сокет не открыт");
-  } else
-    QMessageBox::critical(this, "tcp-client", "Не подключено");
+    ui->m_messageLineEdit->clear();
+  } else {
+    QMessageBox::critical(this, "tcp-client", "Сокет не открыт");
+  }
 }
