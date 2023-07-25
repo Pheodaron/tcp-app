@@ -16,7 +16,7 @@ class TcpServerWidget : public QWidget {
   Q_OBJECT
 
 public:
-  explicit TcpServerWidget(QWidget *parent = nullptr);
+  explicit TcpServerWidget(int port, QWidget *parent = nullptr);
   ~TcpServerWidget();
 
 public slots:

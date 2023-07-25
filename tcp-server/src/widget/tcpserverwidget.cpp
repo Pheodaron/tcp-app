@@ -1,7 +1,7 @@
 #include "tcpserverwidget.h"
 #include "ui_tcpserverwidget.h"
 
-TcpServerWidget::TcpServerWidget(QWidget *parent)
+TcpServerWidget::TcpServerWidget(int port, QWidget *parent)
     : QWidget(parent), ui(new Ui::TcpServerWidget), m_server(this),
       m_model(&m_server, this) {
   ui->setupUi(this);
