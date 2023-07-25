@@ -5,6 +5,7 @@
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QTcpSocket>
+#include <iostream>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
