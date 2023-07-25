@@ -54,7 +54,7 @@ QVariant ClientsTableModel::data(const QModelIndex &index, int role) const {
 
 void ClientsTableModel::addClient(QTcpSocket *socket) {
   beginResetModel();
-  m_data.insert(socket->peerPort(),
+  m_data.insert(socket->socketDescriptor(),
                 QPair<QTcpSocket *, QString>(socket, QString()));
   count++;
   endResetModel();
@@ -72,11 +72,11 @@ void ClientsTableModel::disconnectClient(int descriptor) {
   socket->close();
 }
 
-void ClientsTableModel::saveMessage(int port, QString message) {
-  QPair<QTcpSocket *, QString> value = m_data.value(port);
+void ClientsTableModel::saveMessage(int descriptor, QString message) {
+  QPair<QTcpSocket *, QString> value = m_data.value(descriptor);
   value.second = message;
   beginResetModel();
-  m_data.insert(port, value);
+  m_data.insert(descriptor, value);
   endResetModel();
 }
 
