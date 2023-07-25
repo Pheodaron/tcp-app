@@ -4,6 +4,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow) {
   ui->setupUi(this);
+  connect(&m_socket, &QTcpSocket::disconnected, [this]() { onConnected(); });
+
   ui->m_portLineEdit->setText("4242");
   ui->m_sendMessageButton->setEnabled(false);
 }
@@ -12,18 +14,15 @@ MainWindow::~MainWindow() { delete ui; }
 
 void MainWindow::on_m_connectPushButton_clicked() {
   if (isConnected) {
-    m_socket->abort();
-    ui->m_connectPushButton->setText("Подключиться");
-    ui->m_sendMessageButton->setEnabled(false);
+    onConnected();
   } else {
-    m_socket = new QTcpSocket(this);
     int port = ui->m_portLineEdit->text().toInt();
-    m_socket->connectToHost(QHostAddress("127.0.0.1"), port);
-    out.setDevice(m_socket);
-    out.setVersion(QDataStream::Qt_5_13);
-    isConnected = true;
-    ui->m_connectPushButton->setText("Отключиться");
-    ui->m_sendMessageButton->setEnabled(true);
+    m_socket.connectToHost(QHostAddress("127.0.0.1"), port);
+    if (m_socket.waitForConnected()) {
+      onDisconnected();
+    } else {
+      std::cout << "Проблемы при подключении" << std::endl;
+    }
   }
 }
 
