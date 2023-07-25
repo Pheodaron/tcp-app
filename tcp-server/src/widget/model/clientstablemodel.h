@@ -24,8 +24,9 @@ public:
   void deleteClient(int descriptor);
   void disconnectClient(int descriptor);
   int getDescriptorByRow(int row);
-  void saveMessage(int descriptor, QString message);
+  void saveMessage(int port, QString message);
   bool containsSocket(int descriptor);
+  //  QTcpSocket *getClient(int port);
 
 private:
   QMap<int, QPair<QTcpSocket *, QString>> m_data;

@@ -20,7 +20,6 @@ public:
   ~TcpServerWidget();
 
 public slots:
-  //    void onReadyRead();
   void onSocketStateChanged(QAbstractSocket::SocketState socketState);
   void onNewConnection();
   void onCustomMenuRequested(QPoint pos);

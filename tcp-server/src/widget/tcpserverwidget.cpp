@@ -40,6 +40,23 @@ void TcpServerWidget::onNewConnection() {
 
   connect(clientSocket, &QTcpSocket::stateChanged, this,
           &TcpServerWidget::onSocketStateChanged);
+
+  connect(clientSocket, &QTcpSocket::readyRead, [&]() {
+    QByteArray buffer;
+    QDataStream socketStream(clientSocket);
+    socketStream.setVersion(QDataStream::Qt_5_13);
+
+    socketStream.startTransaction();
+    socketStream >> buffer;
+
+    if (!socketStream.commitTransaction()) {
+      m_model.saveMessage(clientSocket->peerPort(),
+                          QString::fromStdString(buffer.toStdString()));
+    }
+
+    //    QByteArray data = clientSocket->readAll();
+    //    m_model.saveMessage(clientSocket->peerPort(), QString(data));
+  });
 }
 
 void TcpServerWidget::onSocketStateChanged(
@@ -47,8 +64,8 @@ void TcpServerWidget::onSocketStateChanged(
   if (socketState == QAbstractSocket::ClosingState ||
       socketState == QAbstractSocket::UnconnectedState) {
     QTcpSocket *sender = static_cast<QTcpSocket *>(QObject::sender());
-    if (m_model.containsSocket(sender->socketDescriptor())) {
-      m_model.deleteClient(sender->socketDescriptor());
+    if (m_model.containsSocket(sender->peerPort())) {
+      m_model.deleteClient(sender->peerPort());
     }
   }
 }

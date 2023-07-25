@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>170</width>
-    <height>133</height>
+    <width>222</width>
+    <height>172</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,10 +15,37 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QLabel" name="m_portLabel">
+    <item row="2" column="1">
+     <widget class="QLineEdit" name="m_messageLineEdit"/>
+    </item>
+    <item row="4" column="1">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="m_sendMessageButton">
+        <property name="text">
+         <string>Отправить</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label">
       <property name="text">
-       <string>Порт:</string>
+       <string>Сообщение:</string>
       </property>
      </widget>
     </item>
@@ -26,9 +53,33 @@
      <widget class="QLineEdit" name="m_portLineEdit"/>
     </item>
     <item row="1" column="1">
-     <widget class="QPushButton" name="m_connectPushButton">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="m_connectPushButton">
+        <property name="text">
+         <string>Подключиться</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="m_portLabel">
       <property name="text">
-       <string>Подключиться</string>
+       <string>Порт:</string>
       </property>
      </widget>
     </item>
@@ -39,7 +90,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>170</width>
+     <width>222</width>
      <height>29</height>
     </rect>
    </property>
