@@ -1,19 +1,13 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-{
-    ui->setupUi(this);
+MainWindow::MainWindow(int port, QWidget *parent)
+    : QMainWindow(parent), ui(new Ui::MainWindow) {
+  ui->setupUi(this);
 
-    TcpServerWidget *tcpServerWidget = new TcpServerWidget(ui->centralwidget);
-    ui->verticalLayout->addWidget(tcpServerWidget);
-
+  TcpServerWidget *tcpServerWidget =
+      new TcpServerWidget(port, ui->centralwidget);
+  ui->verticalLayout->addWidget(tcpServerWidget);
 }
 
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-
+MainWindow::~MainWindow() { delete ui; }
