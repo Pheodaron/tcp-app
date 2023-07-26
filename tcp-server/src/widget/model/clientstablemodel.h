@@ -10,6 +10,7 @@ class ClientsTableModel : public QAbstractTableModel {
 
 public:
   explicit ClientsTableModel(QTcpServer *server, QObject *parent = nullptr);
+  ~ClientsTableModel();
 
   QVariant headerData(int section, Qt::Orientation orientation,
                       int role = Qt::DisplayRole) const override;

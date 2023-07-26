@@ -2,19 +2,18 @@
 #include "ui_tcpserverwidget.h"
 
 TcpServerWidget::TcpServerWidget(int port, QWidget *parent)
-    : QWidget(parent), ui(new Ui::TcpServerWidget), m_server(this),
-      m_model(&m_server, this) {
+    : QWidget(parent), ui(new Ui::TcpServerWidget), m_server(new QTcpServer(this)), m_model(m_server, this) {
   ui->setupUi(this);
 
-  if (!m_server.listen(QHostAddress::AnyIPv4, port)) {
+  if (!m_server->listen(QHostAddress::AnyIPv4, port)) {
     qDebug() << QString("Unable to start the server: %1.")
-                    .arg(m_server.errorString());
+                    .arg(m_server->errorString());
     exit(0);
   } else {
     qDebug() << "Сервер запущен!";
   }
 
-  connect(&m_server, &QTcpServer::newConnection, this,
+  connect(m_server, &QTcpServer::newConnection, this,
           &TcpServerWidget::onNewConnection);
 
   ui->m_clientsTableView->setModel(&m_model);
@@ -32,10 +31,12 @@ TcpServerWidget::TcpServerWidget(int port, QWidget *parent)
           &TcpServerWidget::onCustomMenuRequested);
 }
 
-TcpServerWidget::~TcpServerWidget() { delete ui; }
+TcpServerWidget::~TcpServerWidget() {
+    delete ui;
+}
 
 void TcpServerWidget::onNewConnection() {
-  QTcpSocket *clientSocket = m_server.nextPendingConnection();
+  QTcpSocket *clientSocket = m_server->nextPendingConnection();
   m_model.addClient(clientSocket);
 
   connect(clientSocket, &QTcpSocket::readyRead,

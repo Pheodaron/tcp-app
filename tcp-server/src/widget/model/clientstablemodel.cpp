@@ -87,3 +87,11 @@ int ClientsTableModel::getDescriptorByRow(int row) {
 bool ClientsTableModel::containsSocket(int descriptor) {
   return m_data.contains(descriptor);
 }
+
+ClientsTableModel::~ClientsTableModel() {
+    for (int i : m_data.keys()) {
+        QTcpSocket *socket = m_data.value(i).first;
+        socket->close();
+        socket->deleteLater();
+    }
+}

@@ -26,7 +26,7 @@ public slots:
 
 private:
   Ui::TcpServerWidget *ui;
-  QTcpServer m_server;
+  QTcpServer *m_server;
   ClientsTableModel m_model;
 };
 
