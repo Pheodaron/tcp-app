@@ -1,0 +1,7 @@
+Package: tcp-client
+Version: 1.0
+Section: utils
+Priority: optional
+Architecture: all
+Maintainer: Pheodaron <grindar10101@gmail.com>
+Description: Simple tcp client
