@@ -21,15 +21,15 @@ public:
   QVariant data(const QModelIndex &index,
                 int role = Qt::DisplayRole) const override;
 
-  void addClient(QTcpSocket *socket);
-  void deleteClient(int descriptor);
-  void disconnectClient(int descriptor);
-  int getDescriptorByRow(int row);
-  void saveMessage(int descriptor, QString message);
-  bool containsSocket(int descriptor);
+  void addClient(QTcpSocket *socket); // добавить клиента
+  void deleteClient(int descriptor); // удалить клиента
+  void disconnectClient(int descriptor); // отключить клиента
+  int getDescriptorByRow(int row); // получить дескриптор по строке
+  void saveMessage(int descriptor, QString message); // сохранить новое сообщение
+  bool containsSocket(int descriptor); // проверить есть ли такой сокет по дескриптору
 
 private:
-  QMap<int, QPair<QTcpSocket *, QString>> m_data;
+  QMap<int, QPair<QTcpSocket *, QString>> m_data; // мапа которая хранит дескриптор против пары <Ссылка на tcp сокет, последнее сообщение>
   int count = 0;
 };
 

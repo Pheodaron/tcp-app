@@ -20,14 +20,14 @@ public:
   ~TcpServerWidget();
 
 public slots:
-  void onNewConnection();
-  void onCustomMenuRequested(QPoint pos);
-  void onReadyRead(QTcpSocket *clientSocket);
+  void onNewConnection(); // слот обрабатывающий новое подключение
+  void onCustomMenuRequested(QPoint pos); // слот обрабатывающий вызов контекстного меню
+  void onReadyRead(QTcpSocket *clientSocket); // слот обрабатывающий сообщения от клиентов
 
 private:
   Ui::TcpServerWidget *ui;
-  QTcpServer *m_server;
-  ClientsTableModel m_model;
+  QTcpServer *m_server; // ссылка на текущий tcp - сервер
+  ClientsTableModel m_model; // модель данных таблицы клиентов
 };
 
 #endif // TCPSERVERWIDGET_H

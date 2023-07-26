@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 MainWindow::~MainWindow() {
+    // закрыть подключение при выходе из программы
     m_socket->close();
     m_socket->deleteLater();
     delete ui;

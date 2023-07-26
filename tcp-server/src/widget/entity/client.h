@@ -5,6 +5,7 @@
 #include <QHostAddress>
 #include <QTcpSocket>
 
+// не используется будет удалено
 class Client
 {
 public:

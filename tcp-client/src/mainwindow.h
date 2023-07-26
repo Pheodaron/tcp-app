@@ -20,17 +20,17 @@ public:
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
-  void onConnected();
-  void onDisconnected();
+  void onConnected(); // поменять состояние формы при отключении
+  void onDisconnected(); // поменять состояние формы при подключении
 
 private slots:
-  void on_m_connectPushButton_clicked();
+  void on_m_connectPushButton_clicked(); // подключение / отключение
 
-  void on_m_sendMessageButton_clicked();
+  void on_m_sendMessageButton_clicked(); // отправка данных на сервер
 
 private:
   Ui::MainWindow *ui;
-  QTcpSocket *m_socket;
-  bool isConnected = false;
+  QTcpSocket *m_socket; // ссылка на текущий сокет
+  bool isConnected = false; // флаг состояния подключения
 };
 #endif // MAINWINDOW_H
