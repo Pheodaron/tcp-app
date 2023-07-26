@@ -30,7 +30,7 @@ private slots:
 
 private:
   Ui::MainWindow *ui;
-  QTcpSocket m_socket;
+  QTcpSocket *m_socket;
   bool isConnected = false;
 };
 #endif // MAINWINDOW_H
